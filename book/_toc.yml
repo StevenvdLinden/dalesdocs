@@ -21,6 +21,7 @@ parts:
       # - file: running/chemistry.ipynb
       # - file: running/ibm.ipynb
       # - file: running/openbcs.ipynb
+      - file: running/parallel.md
       - file: running/gpu.md
       - file: running/quirks.md
   - caption: For DALES developers
