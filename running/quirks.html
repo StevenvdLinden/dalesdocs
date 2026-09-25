@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Using the GPU &#8212; The DALESdocs</title>
+    <title>Quirks &#8212; The DALESdocs</title>
   
   
   
@@ -60,12 +60,12 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'running/gpu';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'running/quirks';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Quirks" href="quirks.html" />
-    <link rel="prev" title="Parallelization" href="parallel.html" />
+    <link rel="next" title="Working with git" href="../developers/git.html" />
+    <link rel="prev" title="Using the GPU" href="gpu.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -240,9 +240,9 @@
 <li class="toctree-l1"><a class="reference internal" href="tracers.html">Running a case with tracers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ibm.html">Immersed Boundary Method (IBM)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelization</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Using the GPU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu.html">Using the GPU</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="quirks.html">Quirks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Quirks</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">For DALES developers</span></p>
 <ul class="nav bd-sidenav">
@@ -332,7 +332,7 @@
       
       
       
-      <li><a href="https://github.com/dalesteam/dalesdocs/edit/main/book/running/gpu.md" target="_blank"
+      <li><a href="https://github.com/dalesteam/dalesdocs/edit/main/book/running/quirks.md" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -349,7 +349,7 @@
       
       
       
-      <li><a href="https://github.com/dalesteam/dalesdocs/issues/new?title=Issue%20on%20page%20%2Frunning/gpu.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/dalesteam/dalesdocs/issues/new?title=Issue%20on%20page%20%2Frunning/quirks.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -379,7 +379,7 @@
       
       
       
-      <li><a href="../_sources/running/gpu.md" target="_blank"
+      <li><a href="../_sources/running/quirks.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -455,7 +455,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Using the GPU</h1>
+    <h1>Quirks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -465,24 +465,15 @@
             </div>
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Using the GPU</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling">Compiling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problems-with-netcdf-fortran">Problems with NetCDF-Fortran</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running">Running</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#various-netcdf-errors">Various netCDF errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stop-fftw-plan-creation-failed">STOP FFTW plan creation failed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-compiler-error-with-ifort-19-0-5-281-20190815">Internal compiler error with ifort 19.0.5.281 20190815</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crash-with-openmpi-3-1-1">Crash with OpenMPI 3.1.1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cray-mpi-and-system-commands">Cray MPI and system() commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrong-wallclock-time-measurement">Wrong wallclock time measurement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ifort-command-line-remark-10148-option-i-dynamic-not-supported">ifort: command line remark #10148: option ‘-i_dynamic’ not supported</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#odd-domain-size-and-poisson-solver">Odd domain size and Poisson solver</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling-on-specific-gpu-systems">Compiling on specific GPU systems</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delftblue-gpu-2026">DelftBlue GPU (2026)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-netcdf-fortran">Compile netcdf-fortran</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-dales-for-gpu-dev-branch-single-precision">Compile DALES for GPU (dev branch, single precision)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#job-script">Job script</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -493,145 +484,77 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="using-the-gpu">
-<span id="sec-gpu"></span><h1>Using the GPU<a class="headerlink" href="#using-the-gpu" title="Link to this heading">#</a></h1>
-<p>DALES now has the option to use graphics processing units (GPU’s) to accelerate computations.</p>
-<section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>One or more NVIDIA GPU’s</p></li>
-<li><p>An OpenACC compatible compiler.</p></li>
-<li><p>cuFFT</p></li>
-<li><p>A GPU-aware MPI library</p></li>
-</ul>
-<p>The easiest and recommended way to get started on the GPU is by downloading the NVIDIA HPC SDK. This SDK contains the nvfortran compiler (which supports OpenACC), cuFFT, and a version of the OpenMPI library that is GPU-compatible. You can download it <a class="reference external" href="https://developer.nvidia.com/hpc-sdk-downloads">here</a>.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="quirks">
+<h1>Quirks<a class="headerlink" href="#quirks" title="Link to this heading">#</a></h1>
+<p>A collection of problems or unexpected behaviour. Pure bugs in DALES should be filed as github issues instead.</p>
+<section id="various-netcdf-errors">
+<h2>Various netCDF errors<a class="headerlink" href="#various-netcdf-errors" title="Link to this heading">#</a></h2>
+<p>these are often caused by netCDF files from a previous run being left in the case directory.
+In particular if the domain or tile size has been changed since the previous run, it’s best to delete any old netcdf output.
+Also if DALES crashed, the netCDF files may be left in an unusable state.</p>
 </section>
-<section id="compiling">
-<h2>Compiling<a class="headerlink" href="#compiling" title="Link to this heading">#</a></h2>
-<p>To compile DALES for the GPU, OpenACC has to be enabled when configuring the build with CMake. Here, it’s important to make sure that CMake uses the correct compiler such that the compilation flags are setup correctly. Using the <code class="docutils literal notranslate"><span class="pre">which</span></code> command, check that the <code class="docutils literal notranslate"><span class="pre">mpif90</span></code> command points to the MPI Fortran compiler wrapper that is bundled with the HPC SDK:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>which<span class="w"> </span>mpif90
-/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/mpi/bin/mpif90
-</pre></div>
-</div>
-<p>If the output looks similar, you’re all set. The next step is to configure the GPU build using CMake:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>dales
-mkdir<span class="w"> </span>build
-<span class="nb">cd</span><span class="w"> </span>build
-<span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpif90
-cmake<span class="w"> </span>-DENABLE_ACC<span class="o">=</span>On<span class="w"> </span>..
-make<span class="w"> </span>-j
-</pre></div>
-</div>
+<section id="stop-fftw-plan-creation-failed">
+<h2>STOP FFTW plan creation failed<a class="headerlink" href="#stop-fftw-plan-creation-failed" title="Link to this heading">#</a></h2>
+<p>This error message is generally caused by linking to the Intel MKL library instead of FFTW.
+MKL pretends to be compatible but is not, in particular it does not support the advanced plan creation interface used in DALES.
+To see the libraries linked to your DALES program, run <code class="docutils literal notranslate"><span class="pre">ldd</span> <span class="pre">path/to/your/dales</span></code>, and look for mkl libraries being mentioned.
+The CMake files supplied with DALES should discourage the use of MKL as an FFTW substitute by default (from version 5.0 on).</p>
 </section>
-<section id="problems-with-netcdf-fortran">
-<h2>Problems with NetCDF-Fortran<a class="headerlink" href="#problems-with-netcdf-fortran" title="Link to this heading">#</a></h2>
-<p>As mentioned before, the NVIDIA compiler might complain about your installation of NetCDF-Fortran. If this is the case, you will see an error mentioning something about “Old or corrupt module files” during the compilation phase. The solution is to compile the NetCDF-Fortran bindings yourself, using the NVIDIA compiler. In this section, we will briefly explain how to do this.</p>
-<p>You can download the NetCDF-Fortran source code from GitHub using <code class="docutils literal notranslate"><span class="pre">wget</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.1.tar.gz
-tar<span class="w"> </span>xvf<span class="w"> </span>v4.6.1.tar.gz
-</pre></div>
-</div>
-<p>Next, we need to export some variables such that NetCDF-Fortran compiler correctly. You can use <code class="docutils literal notranslate"><span class="pre">nc-config</span></code>, which comes bundled with NetCDF-C to automatically figure out some compiler flags:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>netcdf-fortran-4.6.1
-<span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>nvcc
-<span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>nvfortran
-<span class="nb">export</span><span class="w"> </span><span class="nv">CPPFLAGS</span><span class="o">=</span><span class="k">$(</span>nc-config<span class="w"> </span>--cflags<span class="k">)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span><span class="k">$(</span>nc-config<span class="w"> </span>--libs<span class="k">)</span>
-</pre></div>
-</div>
-<p>Finally, we can compile and install NetCDF-Fortran. Here, we use <code class="docutils literal notranslate"><span class="pre">~/software/netcdf-fortran</span></code> as the installation location:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/software/netcdf-fortran
-./configure<span class="w"> </span>--prefix<span class="o">=</span><span class="nv">$HOME</span>/software/netcdf-fortran<span class="w"> </span>--disable-shared
-make<span class="w"> </span>install
-</pre></div>
-</div>
-<p>To then compile DALES with this new library, we need to point CMake to its location:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpif90
-cmake<span class="w"> </span>-DENABLE_ACC<span class="o">=</span>On<span class="w"> </span>-DNetCDF_Fortran_ROOT<span class="o">=</span><span class="nv">$HOME</span>/software/netcdf-fortran<span class="w"> </span>..
-make<span class="w"> </span>-j
+<section id="internal-compiler-error-with-ifort-19-0-5-281-20190815">
+<h2>Internal compiler error with ifort 19.0.5.281 20190815<a class="headerlink" href="#internal-compiler-error-with-ifort-19-0-5-281-20190815" title="Link to this heading">#</a></h2>
+<p>30.7.2020, FJ. On SuperMUC, when compiling with SYST=lisa-intel.
+Compiling modheterostats.f90 causes an internal compiler error.
+Changing <code class="docutils literal notranslate"><span class="pre">-O3</span></code> to <code class="docutils literal notranslate"><span class="pre">-O2</span></code> allows the compilation to finish.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">lrz</span><span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">impi2019u6</span><span class="o">/</span><span class="n">impi</span><span class="o">/</span><span class="mf">2019.6.154</span><span class="o">/</span><span class="n">intel64</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">mpiifort</span> \
+<span class="o">-</span><span class="n">I</span><span class="o">/</span><span class="n">dss</span><span class="o">/</span><span class="n">dsshome1</span><span class="o">/</span><span class="n">lrz</span><span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">spack</span><span class="o">/</span><span class="n">release</span><span class="o">/</span><span class="mf">19.2</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">x86_avx512</span><span class="o">/</span><span class="n">netcdf</span><span class="o">-</span><span class="n">fortran</span><span class="o">/</span><span class="mf">4.4.4</span><span class="o">-</span><span class="n">intel</span><span class="o">-</span><span class="n">ryxkupm</span><span class="o">/</span><span class="n">include</span> \
+<span class="o">-</span><span class="n">r8</span> <span class="o">-</span><span class="n">ftz</span> <span class="o">-</span><span class="n">extend_source</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">traceback</span> <span class="o">-</span><span class="n">O3</span> <span class="o">-</span><span class="n">xHost</span> <span class="o">-</span><span class="n">module</span> <span class="n">program_modules</span>   \
+<span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">dss</span><span class="o">/</span><span class="n">dsshome1</span><span class="o">/</span><span class="mi">0</span><span class="n">F</span><span class="o">/</span><span class="n">di67mow</span><span class="o">/</span><span class="n">dales</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">modheterostats</span><span class="o">.</span><span class="n">f90</span> <span class="o">-</span><span class="n">o</span> <span class="n">CMakeFiles</span><span class="o">/</span><span class="n">dales4</span><span class="o">.</span><span class="n">dir</span><span class="o">/</span><span class="n">modheterostats</span><span class="o">.</span><span class="n">f90</span><span class="o">.</span><span class="n">o</span>
+
+<span class="mi">20000_28030</span>
+
+
+<span class="n">catastrophic</span> <span class="n">error</span><span class="p">:</span> <span class="o">**</span><span class="n">Internal</span> <span class="n">compiler</span> <span class="n">error</span><span class="p">:</span> <span class="n">internal</span> <span class="n">abort</span><span class="o">**</span> <span class="n">Please</span> <span class="n">report</span> 
+<span class="n">this</span> <span class="n">error</span> <span class="n">along</span> <span class="k">with</span> <span class="n">the</span> <span class="n">circumstances</span> <span class="ow">in</span> <span class="n">which</span> <span class="n">it</span> <span class="n">occurred</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">Software</span> <span class="n">Problem</span> <span class="n">Report</span><span class="o">.</span>  
+<span class="n">Note</span><span class="p">:</span> <span class="n">File</span> <span class="ow">and</span> <span class="n">line</span> <span class="n">given</span> <span class="n">may</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">explicit</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">this</span> <span class="n">error</span><span class="o">.</span>
+<span class="n">compilation</span> <span class="n">aborted</span> <span class="k">for</span> <span class="o">/</span><span class="n">dss</span><span class="o">/</span><span class="n">dsshome1</span><span class="o">/</span><span class="mi">0</span><span class="n">F</span><span class="o">/</span><span class="n">di67mow</span><span class="o">/</span><span class="n">dales</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">modheterostats</span><span class="o">.</span><span class="n">f90</span> <span class="p">(</span><span class="n">code</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="running">
-<h2>Running<a class="headerlink" href="#running" title="Link to this heading">#</a></h2>
-<p>If you have compiled DALES succesfully with OpenACC enabled, running it is not very different from the CPU version. DALES can be launched using the <code class="docutils literal notranslate"><span class="pre">mpirun</span></code> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-np<span class="w"> </span>N<span class="w"> </span>&lt;path-to-DALES&gt;<span class="w"> </span>&lt;path-to-namoptions&gt;
-</pre></div>
-</div>
-<p>where N should match the number of GPU’s you want to use.</p>
+<section id="crash-with-openmpi-3-1-1">
+<h2>Crash with OpenMPI 3.1.1<a class="headerlink" href="#crash-with-openmpi-3-1-1" title="Link to this heading">#</a></h2>
+<p>On Lisa, runs with 16 cores on one node frequently crashed when compiled with the foss/2018b module set.
+This seems to be a bug in OpenMPI. With OpenMPI 3.1.3 the problem disappeared. The crash usually happened in <code class="docutils literal notranslate"><span class="pre">transpose_b</span></code> or <code class="docutils literal notranslate"><span class="pre">transpose_binv</span></code> in modpois.
+Such a bug is mentioned in the OpenMP <a class="reference external" href="https://www.open-mpi.org/source/new.php">release notes</a>, and
+<a class="reference external" href="https://github.com/open-mpi/ompi/issues/5375">this bug report</a>.</p>
 </section>
+<section id="cray-mpi-and-system-commands">
+<h2>Cray MPI and system() commands<a class="headerlink" href="#cray-mpi-and-system-commands" title="Link to this heading">#</a></h2>
+<p>Cray MPI is by default not compatible with programs that launch other programs with system().
+In Dales, at least some versions, system() is used to symlink init*<em>latest</em> files to the appropriate
+init* file. This caused crashes. A possible workaround is to call a function for creating the symlink,
+this is annoying because the syntax and support for this differs between Fortran compilers.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="compiling-on-specific-gpu-systems">
-<h1>Compiling on specific GPU systems<a class="headerlink" href="#compiling-on-specific-gpu-systems" title="Link to this heading">#</a></h1>
-<p><a class="reference external" href="https://doc.dhpc.tudelft.nl/delftblue/">https://doc.dhpc.tudelft.nl/delftblue/</a> (requires login)</p>
-<section id="delftblue-gpu-2026">
-<h2>DelftBlue GPU (2026)<a class="headerlink" href="#delftblue-gpu-2026" title="Link to this heading">#</a></h2>
-<section id="compile-netcdf-fortran">
-<h3>Compile netcdf-fortran<a class="headerlink" href="#compile-netcdf-fortran" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>module load nvhpc/25.7
-module load netcdf-c/4.9.2
-module load cmake/3.30.5
-module load hdf5/1.14.3
-
-git clone https://github.com/unidata/netcdf-fortran
-cd netcdf-fortran
-
-cmake .. -DCMAKE_INSTALL_PREFIX=$HOME
-make -j 4
-make install
-</pre></div>
-</div>
+<section id="wrong-wallclock-time-measurement">
+<h2>Wrong wallclock time measurement<a class="headerlink" href="#wrong-wallclock-time-measurement" title="Link to this heading">#</a></h2>
+<p>Some OpenMPI versions report an incorrect wallclock time - not taking CPU frequency variations into account.</p>
 </section>
-<section id="compile-dales-for-gpu-dev-branch-single-precision">
-<h3>Compile DALES for GPU (dev branch, single precision)<a class="headerlink" href="#compile-dales-for-gpu-dev-branch-single-precision" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>module load nvhpc/25.7
-module load netcdf-c/4.9.2
-module load hdf5/1.14.3
-module load cmake/3.30.5
-
-git clone https://github.com/dalesteam/dales
-git checkout dev
-git submodule init
-git submodule update
-
-cd dales
-mkdir build-gpu-sp
-cd build-gpu-sp
-
-cmake .. -DENABLE_FP32_POIS=True -DENABLE_FP32_FIELDS=True -DENABLE_ACC=True -DNetCDF_Fortran_ROOT=$HOME
-make -j 4
-</pre></div>
-</div>
+<section id="ifort-command-line-remark-10148-option-i-dynamic-not-supported">
+<h2>ifort: command line remark #10148: option ‘-i_dynamic’ not supported<a class="headerlink" href="#ifort-command-line-remark-10148-option-i-dynamic-not-supported" title="Link to this heading">#</a></h2>
+<p>Cmake before version 3.0 is not compatible with the Intel Fortran compiler - it adds an obsolete flag -i_dynamic.
+Using a newer cmake solves this issue.</p>
 </section>
-<section id="job-script">
-<h3>Job script<a class="headerlink" href="#job-script" title="Link to this heading">#</a></h3>
-<p>to be submitted in the directory where the simulation will run, with the input files already in place.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
-#SBATCH --job-name="dales"
-#SBATCH --partition=gpu-a100
-#SBATCH --time=1:00:00
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --gpus-per-task=1
-#SBATCH --mem-per-cpu=8000M
-#SBATCH --account=research-ceg-grs
-
-# you may have to adapt the account line above,
-# according to your account and group status
-
-module load nvhpc/25.7
-module load netcdf-c/4.9.2
-#module load cmake/3.30.5
-module load hdf5/1.14.3
-
-DALES=$HOME/dales/build-gpu-sp/bin/dales
-
-srun --mpi=pmix -n 1 mpiexec -n 1 $DALES namoptions.001
-
-</pre></div>
-</div>
-<p>Note: srun and mpiexec on the last line seem redundant, mpiexec seem required, uncertain about srun.</p>
-</section>
+<section id="odd-domain-size-and-poisson-solver">
+<h2>Odd domain size and Poisson solver<a class="headerlink" href="#odd-domain-size-and-poisson-solver" title="Link to this heading">#</a></h2>
+<p>The (old-built-in) FFT Poisson solver may not be correct if the domain size is odd.
+With odd sizes, there is a different element ordering in the output of the FFT,
+and the code seems to not take this into account.
+Test on the rico case, divergence diagnostics:
+divmax, divtot =    7.31E-10   1.60E-11 (rico, 145x144)
+divmax, divtot =    3.70E-17   2.28E-11 (rico, 144x144)</p>
+<p>divmax for odd sizes is significantly larger, which is a sign that the solution is less accurate.
+For now, odd domain sizes are not recommended. For future alternative Poisson solvers,
+we will aim to handle odd sizes correctly, rather than reproducing the current behavior.</p>
+<p>This problem should not be present for the FFTW-based solver, which is the default from DALES 5.0 on.</p>
 </section>
 </section>
 
@@ -666,20 +589,20 @@ srun --mpi=pmix -n 1 mpiexec -n 1 $DALES namoptions.001
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="parallel.html"
+       href="gpu.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Parallelization</p>
+        <p class="prev-next-title">Using the GPU</p>
       </div>
     </a>
     <a class="right-next"
-       href="quirks.html"
+       href="../developers/git.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Quirks</p>
+        <p class="prev-next-title">Working with git</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -701,24 +624,15 @@ srun --mpi=pmix -n 1 mpiexec -n 1 $DALES namoptions.001
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Using the GPU</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling">Compiling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problems-with-netcdf-fortran">Problems with NetCDF-Fortran</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running">Running</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#various-netcdf-errors">Various netCDF errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stop-fftw-plan-creation-failed">STOP FFTW plan creation failed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-compiler-error-with-ifort-19-0-5-281-20190815">Internal compiler error with ifort 19.0.5.281 20190815</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crash-with-openmpi-3-1-1">Crash with OpenMPI 3.1.1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cray-mpi-and-system-commands">Cray MPI and system() commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrong-wallclock-time-measurement">Wrong wallclock time measurement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ifort-command-line-remark-10148-option-i-dynamic-not-supported">ifort: command line remark #10148: option ‘-i_dynamic’ not supported</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#odd-domain-size-and-poisson-solver">Odd domain size and Poisson solver</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling-on-specific-gpu-systems">Compiling on specific GPU systems</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delftblue-gpu-2026">DelftBlue GPU (2026)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-netcdf-fortran">Compile netcdf-fortran</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-dales-for-gpu-dev-branch-single-precision">Compile DALES for GPU (dev branch, single precision)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#job-script">Job script</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>

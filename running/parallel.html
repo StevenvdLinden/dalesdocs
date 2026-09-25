@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Using the GPU &#8212; The DALESdocs</title>
+    <title>Parallelization &#8212; The DALESdocs</title>
   
   
   
@@ -60,12 +60,12 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'running/gpu';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'running/parallel';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Quirks" href="quirks.html" />
-    <link rel="prev" title="Parallelization" href="parallel.html" />
+    <link rel="next" title="Using the GPU" href="gpu.html" />
+    <link rel="prev" title="Immersed Boundary Method (IBM)" href="ibm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -153,10 +153,6 @@
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
-      <span class="fa-solid fa-outdent"></span>
-    </button>
-  
 </div>
 
     </header>
@@ -239,8 +235,8 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tracers.html">Running a case with tracers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ibm.html">Immersed Boundary Method (IBM)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parallel.html">Parallelization</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Using the GPU</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Parallelization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpu.html">Using the GPU</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="quirks.html">Quirks</a></li>
 </ul>
@@ -332,7 +328,7 @@
       
       
       
-      <li><a href="https://github.com/dalesteam/dalesdocs/edit/main/book/running/gpu.md" target="_blank"
+      <li><a href="https://github.com/dalesteam/dalesdocs/edit/main/book/running/parallel.md" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -349,7 +345,7 @@
       
       
       
-      <li><a href="https://github.com/dalesteam/dalesdocs/issues/new?title=Issue%20on%20page%20%2Frunning/gpu.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/dalesteam/dalesdocs/issues/new?title=Issue%20on%20page%20%2Frunning/parallel.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -379,7 +375,7 @@
       
       
       
-      <li><a href="../_sources/running/gpu.md" target="_blank"
+      <li><a href="../_sources/running/parallel.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -442,9 +438,7 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -455,35 +449,11 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Using the GPU</h1>
+    <h1>Parallelization</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Using the GPU</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling">Compiling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problems-with-netcdf-fortran">Problems with NetCDF-Fortran</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running">Running</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling-on-specific-gpu-systems">Compiling on specific GPU systems</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delftblue-gpu-2026">DelftBlue GPU (2026)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-netcdf-fortran">Compile netcdf-fortran</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-dales-for-gpu-dev-branch-single-precision">Compile DALES for GPU (dev branch, single precision)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#job-script">Job script</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -493,146 +463,44 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="using-the-gpu">
-<span id="sec-gpu"></span><h1>Using the GPU<a class="headerlink" href="#using-the-gpu" title="Link to this heading">#</a></h1>
-<p>DALES now has the option to use graphics processing units (GPU’s) to accelerate computations.</p>
-<section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>One or more NVIDIA GPU’s</p></li>
-<li><p>An OpenACC compatible compiler.</p></li>
-<li><p>cuFFT</p></li>
-<li><p>A GPU-aware MPI library</p></li>
+  <section class="tex2jax_ignore mathjax_ignore" id="parallelization">
+<h1>Parallelization<a class="headerlink" href="#parallelization" title="Link to this heading">#</a></h1>
+<p>DALES can be run in parallel, using MPI. The domain can be decomposed in one or two horizontal dimensions.
+The basic steps for a parallel run are:</p>
+<ul>
+<li><p>set <code class="docutils literal notranslate"><span class="pre">nprocx</span></code> and <code class="docutils literal notranslate"><span class="pre">nprocy</span></code> in the <code class="docutils literal notranslate"><span class="pre">&amp;DOMAIN</span></code> namelist to the desired
+number of parallel domains in the x and y directions. The total
+number of processes will then be <code class="docutils literal notranslate"><span class="pre">nproc</span> <span class="pre">=</span> <span class="pre">nprocx</span> <span class="pre">*</span> <span class="pre">nprocy</span></code>.</p></li>
+<li><p>start DALES with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpirun</span> <span class="o">-</span><span class="n">n</span> <span class="o">&lt;</span><span class="n">nproc</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">dales</span> <span class="n">namoptions</span><span class="mf">.001</span>
+</pre></div>
+</div>
+<p>where you fill in the requested number of tasks instead of <code class="docutils literal notranslate"><span class="pre">&lt;nproc&gt;</span></code>.
+On a cluster you may want submit a job script instead.</p>
+</li>
 </ul>
-<p>The easiest and recommended way to get started on the GPU is by downloading the NVIDIA HPC SDK. This SDK contains the nvfortran compiler (which supports OpenACC), cuFFT, and a version of the OpenMPI library that is GPU-compatible. You can download it <a class="reference external" href="https://developer.nvidia.com/hpc-sdk-downloads">here</a>.</p>
-</section>
-<section id="compiling">
-<h2>Compiling<a class="headerlink" href="#compiling" title="Link to this heading">#</a></h2>
-<p>To compile DALES for the GPU, OpenACC has to be enabled when configuring the build with CMake. Here, it’s important to make sure that CMake uses the correct compiler such that the compilation flags are setup correctly. Using the <code class="docutils literal notranslate"><span class="pre">which</span></code> command, check that the <code class="docutils literal notranslate"><span class="pre">mpif90</span></code> command points to the MPI Fortran compiler wrapper that is bundled with the HPC SDK:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>which<span class="w"> </span>mpif90
-/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/mpi/bin/mpif90
-</pre></div>
-</div>
-<p>If the output looks similar, you’re all set. The next step is to configure the GPU build using CMake:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>dales
-mkdir<span class="w"> </span>build
-<span class="nb">cd</span><span class="w"> </span>build
-<span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpif90
-cmake<span class="w"> </span>-DENABLE_ACC<span class="o">=</span>On<span class="w"> </span>..
-make<span class="w"> </span>-j
-</pre></div>
-</div>
-</section>
-<section id="problems-with-netcdf-fortran">
-<h2>Problems with NetCDF-Fortran<a class="headerlink" href="#problems-with-netcdf-fortran" title="Link to this heading">#</a></h2>
-<p>As mentioned before, the NVIDIA compiler might complain about your installation of NetCDF-Fortran. If this is the case, you will see an error mentioning something about “Old or corrupt module files” during the compilation phase. The solution is to compile the NetCDF-Fortran bindings yourself, using the NVIDIA compiler. In this section, we will briefly explain how to do this.</p>
-<p>You can download the NetCDF-Fortran source code from GitHub using <code class="docutils literal notranslate"><span class="pre">wget</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.1.tar.gz
-tar<span class="w"> </span>xvf<span class="w"> </span>v4.6.1.tar.gz
-</pre></div>
-</div>
-<p>Next, we need to export some variables such that NetCDF-Fortran compiler correctly. You can use <code class="docutils literal notranslate"><span class="pre">nc-config</span></code>, which comes bundled with NetCDF-C to automatically figure out some compiler flags:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>netcdf-fortran-4.6.1
-<span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>nvcc
-<span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>nvfortran
-<span class="nb">export</span><span class="w"> </span><span class="nv">CPPFLAGS</span><span class="o">=</span><span class="k">$(</span>nc-config<span class="w"> </span>--cflags<span class="k">)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span><span class="k">$(</span>nc-config<span class="w"> </span>--libs<span class="k">)</span>
-</pre></div>
-</div>
-<p>Finally, we can compile and install NetCDF-Fortran. Here, we use <code class="docutils literal notranslate"><span class="pre">~/software/netcdf-fortran</span></code> as the installation location:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/software/netcdf-fortran
-./configure<span class="w"> </span>--prefix<span class="o">=</span><span class="nv">$HOME</span>/software/netcdf-fortran<span class="w"> </span>--disable-shared
-make<span class="w"> </span>install
-</pre></div>
-</div>
-<p>To then compile DALES with this new library, we need to point CMake to its location:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpif90
-cmake<span class="w"> </span>-DENABLE_ACC<span class="o">=</span>On<span class="w"> </span>-DNetCDF_Fortran_ROOT<span class="o">=</span><span class="nv">$HOME</span>/software/netcdf-fortran<span class="w"> </span>..
-make<span class="w"> </span>-j
-</pre></div>
-</div>
-</section>
-<section id="running">
-<h2>Running<a class="headerlink" href="#running" title="Link to this heading">#</a></h2>
-<p>If you have compiled DALES succesfully with OpenACC enabled, running it is not very different from the CPU version. DALES can be launched using the <code class="docutils literal notranslate"><span class="pre">mpirun</span></code> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-np<span class="w"> </span>N<span class="w"> </span>&lt;path-to-DALES&gt;<span class="w"> </span>&lt;path-to-namoptions&gt;
-</pre></div>
-</div>
-<p>where N should match the number of GPU’s you want to use.</p>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="compiling-on-specific-gpu-systems">
-<h1>Compiling on specific GPU systems<a class="headerlink" href="#compiling-on-specific-gpu-systems" title="Link to this heading">#</a></h1>
-<p><a class="reference external" href="https://doc.dhpc.tudelft.nl/delftblue/">https://doc.dhpc.tudelft.nl/delftblue/</a> (requires login)</p>
-<section id="delftblue-gpu-2026">
-<h2>DelftBlue GPU (2026)<a class="headerlink" href="#delftblue-gpu-2026" title="Link to this heading">#</a></h2>
-<section id="compile-netcdf-fortran">
-<h3>Compile netcdf-fortran<a class="headerlink" href="#compile-netcdf-fortran" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>module load nvhpc/25.7
-module load netcdf-c/4.9.2
-module load cmake/3.30.5
-module load hdf5/1.14.3
-
-git clone https://github.com/unidata/netcdf-fortran
-cd netcdf-fortran
-
-cmake .. -DCMAKE_INSTALL_PREFIX=$HOME
-make -j 4
-make install
-</pre></div>
-</div>
-</section>
-<section id="compile-dales-for-gpu-dev-branch-single-precision">
-<h3>Compile DALES for GPU (dev branch, single precision)<a class="headerlink" href="#compile-dales-for-gpu-dev-branch-single-precision" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>module load nvhpc/25.7
-module load netcdf-c/4.9.2
-module load hdf5/1.14.3
-module load cmake/3.30.5
-
-git clone https://github.com/dalesteam/dales
-git checkout dev
-git submodule init
-git submodule update
-
-cd dales
-mkdir build-gpu-sp
-cd build-gpu-sp
-
-cmake .. -DENABLE_FP32_POIS=True -DENABLE_FP32_FIELDS=True -DENABLE_ACC=True -DNetCDF_Fortran_ROOT=$HOME
-make -j 4
-</pre></div>
-</div>
-</section>
-<section id="job-script">
-<h3>Job script<a class="headerlink" href="#job-script" title="Link to this heading">#</a></h3>
-<p>to be submitted in the directory where the simulation will run, with the input files already in place.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
-#SBATCH --job-name="dales"
-#SBATCH --partition=gpu-a100
-#SBATCH --time=1:00:00
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --gpus-per-task=1
-#SBATCH --mem-per-cpu=8000M
-#SBATCH --account=research-ceg-grs
-
-# you may have to adapt the account line above,
-# according to your account and group status
-
-module load nvhpc/25.7
-module load netcdf-c/4.9.2
-#module load cmake/3.30.5
-module load hdf5/1.14.3
-
-DALES=$HOME/dales/build-gpu-sp/bin/dales
-
-srun --mpi=pmix -n 1 mpiexec -n 1 $DALES namoptions.001
-
-</pre></div>
-</div>
-<p>Note: srun and mpiexec on the last line seem redundant, mpiexec seem required, uncertain about srun.</p>
-</section>
-</section>
+<p>The best configuration (choice of <code class="docutils literal notranslate"><span class="pre">itot</span></code>, <code class="docutils literal notranslate"><span class="pre">jtot</span></code>, <code class="docutils literal notranslate"><span class="pre">nprocx</span></code>, <code class="docutils literal notranslate"><span class="pre">nprocy</span></code>) for a given job depends on the machine the job is running on. Below are some constraints to keep in mind and some general recommendations.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nprocx</span></code> must divide <code class="docutils literal notranslate"><span class="pre">itot</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nprocy</span></code> must divide <code class="docutils literal notranslate"><span class="pre">jtot</span></code></p></li>
+<li><p>a reasonable number of grid rows and columns per task (<code class="docutils literal notranslate"><span class="pre">imax</span> <span class="pre">=</span> <span class="pre">itot/nprocx</span></code> and <code class="docutils literal notranslate"><span class="pre">jmax</span> <span class="pre">=</span> <span class="pre">jtot/nprocy</span></code>) is around 32-64.</p></li>
+<li><p>the Fourier-transform-based Poisson solver works best (fastest) when the total grid sizes (<code class="docutils literal notranslate"><span class="pre">itot</span></code>, <code class="docutils literal notranslate"><span class="pre">jtot</span></code>) factorize into powers of small numbers, e.g. <code class="docutils literal notranslate"><span class="pre">2**n</span> <span class="pre">*</span> <span class="pre">3**m</span></code>.</p></li>
+<li><p>it seems square tiles are efficient, or tiles that are
+longer along x than y, perhaps up to two times longer.</p></li>
+</ul>
+<p>For runs that span multiple nodes:</p>
+<ul class="simple">
+<li><p>if you want to use an integer number of nodes,
+the <code class="docutils literal notranslate"><span class="pre">total_number_of_cores</span> <span class="pre">=</span> <span class="pre">number_of_nodes</span> <span class="pre">*</span> <span class="pre">cores_per_node</span></code> should match the number of DALES tasks = <code class="docutils literal notranslate"><span class="pre">nprocx</span> <span class="pre">*</span> <span class="pre">nprocy</span></code>.</p></li>
+<li><p>it’s often efficient if <code class="docutils literal notranslate"><span class="pre">nprocx</span></code> divides the number of cores per node,
+i.e. an integer number of tile rows fit on one node. This means that the
+communication in the x direction is always within a node.</p></li>
+<li><p>often the number of cores in a node is of the form <code class="docutils literal notranslate"><span class="pre">2**n</span> <span class="pre">*</span> <span class="pre">3**m</span></code>, where
+m is small, e.g. 48, 128, 192.
+We have had good experiences with domain sizes (<code class="docutils literal notranslate"><span class="pre">itot</span></code>, <code class="docutils literal notranslate"><span class="pre">jtot</span></code>) that are <code class="docutils literal notranslate"><span class="pre">2**n</span></code> or <code class="docutils literal notranslate"><span class="pre">3*2**n</span></code>.</p></li>
+</ul>
+<p>To increase speed and to save memory, also consider running in
+single-precision mode, see <a class="reference internal" href="compilation.html#sec-compilation-single"><span class="std std-ref">Single precision</span></a></p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -666,20 +534,20 @@ srun --mpi=pmix -n 1 mpiexec -n 1 $DALES namoptions.001
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="parallel.html"
+       href="ibm.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Parallelization</p>
+        <p class="prev-next-title">Immersed Boundary Method (IBM)</p>
       </div>
     </a>
     <a class="right-next"
-       href="quirks.html"
+       href="gpu.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Quirks</p>
+        <p class="prev-next-title">Using the GPU</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -689,39 +557,6 @@ srun --mpi=pmix -n 1 mpiexec -n 1 $DALES namoptions.001
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item"><div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Using the GPU</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling">Compiling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problems-with-netcdf-fortran">Problems with NetCDF-Fortran</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running">Running</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling-on-specific-gpu-systems">Compiling on specific GPU systems</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delftblue-gpu-2026">DelftBlue GPU (2026)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-netcdf-fortran">Compile netcdf-fortran</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-dales-for-gpu-dev-branch-single-precision">Compile DALES for GPU (dev branch, single precision)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#job-script">Job script</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  </nav></div>
-
-</div></div>
               
             
           </div>
